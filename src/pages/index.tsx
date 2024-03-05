@@ -80,7 +80,9 @@ const Home = () => {
                 </Box>
               </CardDisplay>
             </Tabs.Content>
-            <Tabs.Content value="favorites"></Tabs.Content>
+            <Tabs.Content value="favorites">
+              <CardDisplay></CardDisplay>
+            </Tabs.Content>
           </Box>
         </Tabs.Root>
       </Container>
