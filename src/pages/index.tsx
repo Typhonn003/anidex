@@ -2,13 +2,16 @@ import {
   Box,
   Button,
   Container,
+  Dialog,
   Flex,
+  Heading,
+  IconButton,
   Separator,
   Tabs,
   TextField,
 } from "@radix-ui/themes";
 import { CardDisplay } from "@/components";
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { Cross1Icon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
 const Home = () => {
   return (
@@ -24,7 +27,7 @@ const Home = () => {
             <Tabs.Content value="search">
               <CardDisplay>
                 <Box>
-                  <Flex gap="2" style={{ justifyContent: "space-between" }}>
+                  <Flex gap="2">
                     <TextField.Root style={{ width: "100%" }}>
                       <TextField.Slot>
                         <MagnifyingGlassIcon height="16" width="16" />
@@ -37,7 +40,46 @@ const Home = () => {
                 </Box>
               </CardDisplay>
             </Tabs.Content>
-            <Tabs.Content value="genres"></Tabs.Content>
+            <Tabs.Content value="genres">
+              <CardDisplay>
+                <Box>
+                  <Flex justify="between" align="center">
+                    <Heading
+                      color="plum"
+                      as="h2"
+                      size="3"
+                      weight="medium"
+                      highContrast
+                    >
+                      Selecione um gênero
+                    </Heading>
+                    <Dialog.Root>
+                      <Dialog.Trigger>
+                        <Button variant="classic">Gêneros</Button>
+                      </Dialog.Trigger>
+                      <Dialog.Content
+                        style={{ backgroundColor: "var(--accent-2)" }}
+                      >
+                        <Flex justify="between">
+                          <Dialog.Title color="plum" highContrast>
+                            Gêneros
+                          </Dialog.Title>
+                          <Dialog.Close>
+                            <IconButton
+                              variant="ghost"
+                              aria-label="Fechar o modal de gêneros"
+                            >
+                              <Cross1Icon width="18" height="18" />
+                            </IconButton>
+                          </Dialog.Close>
+                        </Flex>
+                      </Dialog.Content>
+                    </Dialog.Root>
+                  </Flex>
+                  <Separator my="3" size="4" />
+                </Box>
+              </CardDisplay>
+            </Tabs.Content>
             <Tabs.Content value="favorites"></Tabs.Content>
           </Box>
         </Tabs.Root>
