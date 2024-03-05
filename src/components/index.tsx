@@ -1,3 +1,4 @@
+import CardDisplay from "./layout/CardDisplay";
 import Header from "./layout/Header";
 
-export { Header };
+export { CardDisplay, Header };
