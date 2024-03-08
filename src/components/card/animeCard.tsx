@@ -8,36 +8,39 @@ interface AnimeCardProps {
 
 const AnimeCard = ({ src, name }: AnimeCardProps) => {
   return (
-    <Card
-      style={{
-        borderColor: "var(--accent-a6)",
-        width: 130,
-      }}
-      variant="classic"
-    >
-      <Inset clip="border-box" side="top" pb="current">
-        <Image
-          src={src}
-          width={130}
-          height={190}
-          alt={`Imagem de capa do anime ${name}`}
-        />
-      </Inset>
-      <Heading
-        as="h2"
-        size="2"
-        weight="medium"
-        color="plum"
-        highContrast
+    <li style={{ maxWidth: 140 }}>
+      <Card
         style={{
-          whiteSpace: "nowrap",
-          textOverflow: "ellipsis",
-          overflow: "hidden",
+          borderColor: "var(--accent-a6)",
+          width: "full",
         }}
+        variant="classic"
       >
-        {name}
-      </Heading>
-    </Card>
+        <Inset clip="border-box" side="top" pb="current">
+          <Image
+            src={src}
+            width={140}
+            height={170}
+            alt={`Imagem de capa do anime ${name}`}
+            style={{ height: 170, objectFit: "cover" }}
+          />
+        </Inset>
+        <Heading
+          as="h2"
+          size="2"
+          weight="medium"
+          color="plum"
+          highContrast
+          style={{
+            whiteSpace: "nowrap",
+            textOverflow: "ellipsis",
+            overflow: "hidden",
+          }}
+        >
+          {name}
+        </Heading>
+      </Card>
+    </li>
   );
 };
 
