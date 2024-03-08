@@ -1,4 +1,4 @@
-import AnimeCard from "./card/AnimeCard";
+import AnimeCard from "./card/SimpleAnimeCard";
 import CardDisplay from "./layout/CardDisplay";
 import Header from "./layout/Header";
 
