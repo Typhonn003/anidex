@@ -1,0 +1,12 @@
+import api from "@/services/axiosClient";
+import useSWR from "swr";
+
+const useFetch = (url: string) => {
+  const fetcher = (url: string) => api.get(url).then((res) => res.data);
+
+  const { data, error, isLoading } = useSWR(url, fetcher);
+
+  return { data, error, isLoading };
+};
+
+export default useFetch;
