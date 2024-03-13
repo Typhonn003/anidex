@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Flex,
+  Grid,
   Separator,
   Text,
   TextField,
@@ -54,23 +55,26 @@ const SearchAnime = () => {
               </Text>
             </Flex>
           ) : (
-            <ul
+            <Grid
               style={{
+                minHeight: "13.25rem",
                 maxHeight: "calc(100% - 3.5625rem)",
-                display: "grid",
-                gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
                 overflow: "auto",
-                gap: "0.5rem",
               }}
+              columns="2"
+              gap="2"
+              asChild
             >
-              {data.data.map((anime: any) => (
-                <AnimeCard
-                  key={anime.mal_id}
-                  name={anime.title}
-                  src={anime.images.jpg.image_url}
-                />
-              ))}
-            </ul>
+              <ul>
+                {data.data.map((anime: any) => (
+                  <AnimeCard
+                    key={anime.mal_id}
+                    name={anime.title}
+                    src={anime.images.jpg.image_url}
+                  />
+                ))}
+              </ul>
+            </Grid>
           )
         ) : (
           <Flex
