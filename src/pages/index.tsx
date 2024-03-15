@@ -8,7 +8,6 @@ import {
   IconButton,
   Separator,
   Tabs,
-  Text,
 } from "@radix-ui/themes";
 import { CardDisplay, SearchAnime } from "@/components";
 import { Cross1Icon } from "@radix-ui/react-icons";
@@ -16,9 +15,7 @@ import { Cross1Icon } from "@radix-ui/react-icons";
 const Home = () => {
   return (
     <main>
-      <Container py="2" px="3">
-        
-
+      <Container py="2" px="3">        
         <Tabs.Root defaultValue="search">
           <Tabs.List style={{ display: "flex", justifyContent: "center" }}>
             <Tabs.Trigger value="search">Buscar</Tabs.Trigger>

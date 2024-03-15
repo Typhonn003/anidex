@@ -13,12 +13,12 @@ import useFetch from "@/hooks/useFetch";
 import { useState } from "react";
 
 const SearchAnime = () => {
-  const [animeName, setAnimeName] = useState<string | undefined>(undefined);
-  const [searchAnimeName, setSearchAnimeName] = useState<string | undefined>(
-    undefined
-  );
+  const [animeName, setAnimeName] = useState<string>("");
+  const [searchAnimeName, setSearchAnimeName] = useState<string>("");
   const { data, isLoading } = useFetch(
-    searchAnimeName ? `anime?q=${searchAnimeName}` : null
+    searchAnimeName !== ""
+      ? `anime?q=${searchAnimeName}&genres_exclude={9, 12}&limit=24`
+      : null
   );
 
   return (
@@ -54,7 +54,7 @@ const SearchAnime = () => {
                 Carregando...
               </Text>
             </Flex>
-          ) : (
+          ) : data.pagination.items.count > 1 ? (
             <Grid
               style={{
                 minHeight: "13.25rem",
@@ -75,6 +75,17 @@ const SearchAnime = () => {
                 ))}
               </ul>
             </Grid>
+          ) : (
+            <Flex
+              justify="center"
+              align="center"
+              direction="column"
+              style={{ height: "calc(100% - 3.5625rem)" }}
+            >
+              <Text as="p" size="6" weight="medium" color="plum" align="center">
+                Nenhum resultado encontrado
+              </Text>
+            </Flex>
           )
         ) : (
           <Flex
