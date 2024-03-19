@@ -14,6 +14,7 @@ interface SearchResultProps {
   data: Root | undefined;
   searchAnimeName: string;
   isLoading: boolean;
+  hasPagination: boolean;
 }
 
 const ResultMessage = ({ children, column }: ResultMessageProps) => {
@@ -33,6 +34,7 @@ const SearchAnimeResult = ({
   data,
   searchAnimeName,
   isLoading,
+  hasPagination,
 }: SearchResultProps) => {
   const animeData = data?.data;
   const noResults = data?.pagination.items.count == 0;
@@ -62,7 +64,9 @@ const SearchAnimeResult = ({
       <Grid
         style={{
           minHeight: "13.25rem",
-          maxHeight: "calc(100% - 3.5625rem)",
+          maxHeight: `${
+            hasPagination ? "calc(100% - 6.8125rem)" : "calc(100% - 3.5625rem)"
+          }`,
           overflow: "auto",
         }}
         columns="2"

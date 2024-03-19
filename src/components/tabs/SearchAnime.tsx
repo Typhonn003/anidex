@@ -1,20 +1,40 @@
 import { Box, Button, Flex, Separator, TextField } from "@radix-ui/themes";
 import { CardDisplay, SearchAnimeResult } from "..";
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  MagnifyingGlassIcon,
+} from "@radix-ui/react-icons";
 
 import { Root } from "@/interfaces";
 
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import useFetch from "@/hooks/useFetch";
 
 const SearchAnime = () => {
   const [animeName, setAnimeName] = useState<string>("");
   const [searchAnimeName, setSearchAnimeName] = useState<string>("");
+  const [hasPagination, setHasPagination] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [lastPage, setLastPage] = useState<number>(0);
   const { data, isLoading } = useFetch<Root>(
     searchAnimeName !== ""
-      ? `anime?q=${searchAnimeName}&genres_exclude={9, 12}&limit=24`
+      ? `anime?q=${searchAnimeName}&genres_exclude={9, 12}&limit=24&page=${currentPage}`
       : null
   );
+
+  useEffect(() => {
+    if (data) {
+      const lastVisiablePage = data.pagination.last_visible_page;
+
+      if (lastVisiablePage > 1) {
+        setHasPagination(true);
+        setLastPage(lastVisiablePage);
+      } else {
+        setHasPagination(false);
+      }
+    }
+  }, [data]);
 
   const handleAnimeName = (e: ChangeEvent<HTMLInputElement>) => {
     setAnimeName(e.target.value);
@@ -22,6 +42,14 @@ const SearchAnime = () => {
 
   const handleSeach = () => {
     setSearchAnimeName(animeName);
+  };
+
+  const nextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const previousPage = () => {
+    setCurrentPage(currentPage - 1);
   };
 
   return (
@@ -47,7 +75,34 @@ const SearchAnime = () => {
           data={data}
           searchAnimeName={searchAnimeName}
           isLoading={isLoading}
+          hasPagination={hasPagination}
         />
+        {hasPagination ? (
+          <Flex
+            justify={"end"}
+            align={"center"}
+            mt={"3"}
+            height={"7"}
+            gap={"2"}
+          >
+            <Button
+              variant="classic"
+              onClick={previousPage}
+              disabled={currentPage == 1}
+            >
+              <ArrowLeftIcon />
+              Anterior
+            </Button>
+            <Button
+              variant="classic"
+              onClick={nextPage}
+              disabled={currentPage == lastPage}
+            >
+              Próximo
+              <ArrowRightIcon />
+            </Button>
+          </Flex>
+        ) : null}
       </Box>
     </CardDisplay>
   );
