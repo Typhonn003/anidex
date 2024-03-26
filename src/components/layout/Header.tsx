@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const Header = () => {
   return (
-    <header style={{ borderBottomWidth: 1, borderColor: "var(--accent-12)" }}>
+    <header className="border-b border-[var(--accent-12)]">
       <Container py="2" px="3">
         <Flex direction="row" justify="between" align="center">
           <Link href="/">

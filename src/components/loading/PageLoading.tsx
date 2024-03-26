@@ -12,8 +12,7 @@ const PageLoading = () => {
     <Grid
       columns="2"
       gap="2"
-      className="animate-pulse"
-      style={{ height: "calc(100% - 3.5625rem)", overflow: "hidden" }}
+      className="h-[calc(100%-3.5625rem)] animate-pulse overflow-hidden"
     >
       {cards}
     </Grid>

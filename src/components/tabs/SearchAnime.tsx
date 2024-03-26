@@ -27,7 +27,7 @@ const SearchAnime = () => {
     <CardDisplay>
       <Box height="100%">
         <Flex gap="2">
-          <TextField.Root style={{ width: "100%" }}>
+          <TextField.Root className="w-full">
             <TextField.Slot>
               <MagnifyingGlassIcon height="16" width="16" />
             </TextField.Slot>

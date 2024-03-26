@@ -20,7 +20,7 @@ const Pagination = ({
 }: PaginationProps) => {
   const pagesArr: number[] = Array.from(
     { length: lastPage },
-    (_, index) => index + 1
+    (_, index) => index + 1,
   );
 
   const handleScroll = () => {
