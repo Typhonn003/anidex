@@ -8,21 +8,22 @@ interface AnimeCardProps {
 
 const AnimeCard = ({ src, name }: AnimeCardProps) => {
   return (
-    <li style={{ maxWidth: 140 }}>
-      <Card
-        style={{
-          borderColor: "var(--accent-a6)",
-          width: "full",
-        }}
-        variant="classic"
-      >
+    <Card
+      style={{
+        borderColor: "var(--accent-a6)",
+        width: "full",
+      }}
+      variant="classic"
+      asChild
+    >
+      <li>
         <Inset clip="border-box" side="top" pb="current">
           <Image
             src={src}
-            width={140}
-            height={170}
+            width={160}
+            height={200}
             alt={`Imagem de capa do anime ${name}`}
-            style={{ height: 170, objectFit: "cover" }}
+            style={{ height: 200, objectFit: "cover" }}
           />
         </Inset>
         <Heading
@@ -39,8 +40,8 @@ const AnimeCard = ({ src, name }: AnimeCardProps) => {
         >
           {name}
         </Heading>
-      </Card>
-    </li>
+      </li>
+    </Card>
   );
 };
 
