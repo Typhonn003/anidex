@@ -1,5 +1,5 @@
 import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
-import { Button, Flex, Select, Text } from "@radix-ui/themes";
+import { Flex, IconButton, Text } from "@radix-ui/themes";
 
 import { MutableRefObject } from "react";
 
@@ -18,10 +18,71 @@ const Pagination = ({
   setPage,
   elementRef,
 }: PaginationProps) => {
-  const pagesArr: number[] = Array.from(
-    { length: lastPage },
-    (_, index) => index + 1,
-  );
+  const pageButtons = () => {
+    const buttons = [];
+    const totalPages = lastPage;
+
+    buttons.push(
+      <IconButton
+        key={1}
+        variant="classic"
+        onClick={() => setPage(1)}
+        highContrast={currentPage == 1}
+        aria-label="Botão para a página 1"
+      >
+        1
+      </IconButton>,
+    );
+
+    if (totalPages > 3) {
+      let startPage = Math.max(2, currentPage - 1);
+      let endPage = Math.min(totalPages - 1, currentPage + 1);
+
+      if (currentPage <= 2) {
+        endPage = 3;
+      } else if (currentPage >= totalPages - 1) {
+        startPage = totalPages - 2;
+      }
+
+      if (startPage > 2) {
+        buttons.push(<Text as="span">...</Text>);
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        buttons.push(
+          <IconButton
+            key={i}
+            variant="classic"
+            onClick={() => setPage(i)}
+            highContrast={currentPage == i}
+            aria-label={`Botão para a página ${i}`}
+          >
+            {i}
+          </IconButton>,
+        );
+      }
+
+      if (endPage < totalPages - 1) {
+        buttons.push(<Text as="span">...</Text>);
+      }
+    }
+
+    if (totalPages > 1) {
+      buttons.push(
+        <IconButton
+          key={totalPages}
+          variant="classic"
+          onClick={() => setPage(totalPages)}
+          highContrast={currentPage === totalPages}
+          aria-label={`Botão para a página ${totalPages}`}
+        >
+          {totalPages}
+        </IconButton>,
+      );
+    }
+
+    return buttons;
+  };
 
   const handleScroll = () => {
     setTimeout(() => {
@@ -40,11 +101,6 @@ const Pagination = ({
     handleScroll();
   };
 
-  const handleSelectPage = (value: number) => {
-    setPage(value);
-    handleScroll();
-  };
-
   return (
     <Flex
       justify="between"
@@ -52,46 +108,24 @@ const Pagination = ({
       mt={position == "bottom" ? "3" : undefined}
       mb={position == "top" ? "3" : undefined}
       height="7"
-      gap="2"
     >
-      <Button
+      <IconButton
         variant="classic"
         onClick={handlePreviousPage}
         disabled={currentPage == 1}
+        aria-label="Botão para voltar para a página anterior"
       >
         <ArrowLeftIcon />
-        Anterior
-      </Button>
-      <Flex align="center" gap={"2"}>
-        <Select.Root
-          defaultValue={currentPage.toString()}
-          value={currentPage.toString()}
-          onValueChange={(value) => handleSelectPage(Number(value))}
-        >
-          <Select.Trigger aria-label="Lista de páginas" />
-          <Select.Content>
-            <Select.Group>
-              <Select.Label>Página</Select.Label>
-              {pagesArr.map((item) => (
-                <Select.Item key={item} value={item.toString()}>
-                  {item}
-                </Select.Item>
-              ))}
-            </Select.Group>
-          </Select.Content>
-        </Select.Root>
-        <Text color="plum" weight="medium" highContrast>
-          de {lastPage}
-        </Text>
-      </Flex>
-      <Button
+      </IconButton>
+      {pageButtons()}
+      <IconButton
         variant="classic"
         onClick={handleNextPage}
         disabled={currentPage == lastPage}
+        aria-label="Botão para avançar para a próxima página"
       >
-        Próximo
         <ArrowRightIcon />
-      </Button>
+      </IconButton>
     </Flex>
   );
 };
