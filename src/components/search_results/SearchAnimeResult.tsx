@@ -1,6 +1,5 @@
-import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
-import { Box, Button, Flex, Grid, Text } from "@radix-ui/themes";
-import { AnimeCard, PageLoading } from "..";
+import { Box, Flex, Grid, Text } from "@radix-ui/themes";
+import { AnimeCard, PageLoading, Pagination } from "..";
 
 import { AnimeData, Root } from "@/interfaces";
 
@@ -49,23 +48,6 @@ const SearchAnimeResult = ({ page }: SearchResultProps) => {
 
   const animeList = useRef<HTMLDivElement | null>(null);
 
-  const handleScroll = () => {
-    setTimeout(() => {
-      if (animeList.current)
-        animeList.current.scrollTo({ top: 0, behavior: "smooth" });
-    }, 100);
-  };
-
-  const nextPage = () => {
-    setCurrentPage(currentPage + 1);
-    handleScroll();
-  };
-
-  const previousPage = () => {
-    setCurrentPage(currentPage - 1);
-    handleScroll();
-  };
-
   useEffect(() => {
     if (data) {
       const lastVisiablePage = data.pagination.last_visible_page;
@@ -93,10 +75,19 @@ const SearchAnimeResult = ({ page }: SearchResultProps) => {
         style={{
           minHeight: "13.25rem",
           maxHeight: "calc(100% - 3.5625rem)",
-          overflow: "scroll",
+          overflow: "auto",
         }}
         ref={animeList}
       >
+        {lastPage > 1 ? (
+          <Pagination
+            position="top"
+            currentPage={currentPage}
+            lastPage={lastPage}
+            elementRef={animeList}
+            setPage={setCurrentPage}
+          />
+        ) : null}
         <Grid columns="2" gap="2" asChild>
           <ul>
             {data?.data!.map(
@@ -113,24 +104,13 @@ const SearchAnimeResult = ({ page }: SearchResultProps) => {
           </ul>
         </Grid>
         {lastPage > 1 ? (
-          <Flex justify="end" align="center" mt="3" height="7" gap="2">
-            <Button
-              variant="classic"
-              onClick={previousPage}
-              disabled={currentPage == 1}
-            >
-              <ArrowLeftIcon />
-              Anterior
-            </Button>
-            <Button
-              variant="classic"
-              onClick={nextPage}
-              disabled={currentPage == lastPage}
-            >
-              Próximo
-              <ArrowRightIcon />
-            </Button>
-          </Flex>
+          <Pagination
+            position="bottom"
+            currentPage={currentPage}
+            lastPage={lastPage}
+            elementRef={animeList}
+            setPage={setCurrentPage}
+          />
         ) : null}
       </Box>
     );
