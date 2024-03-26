@@ -22,9 +22,7 @@ const ResultMessage = ({ children, column }: ResultMessageProps) => {
       justify="center"
       align="center"
       direction={column ? "column" : undefined}
-      style={{
-        height: "calc(100% - 3.5625rem)",
-      }}
+      className="h-[calc(100%-3.5625rem)]"
     >
       {children}
     </Flex>
@@ -43,7 +41,7 @@ const SearchAnimeResult = ({ page }: SearchResultProps) => {
   const { data, isLoading } = useFetch<Root>(
     searchAnimeName !== ""
       ? `anime?q=${searchAnimeName}&genres_exclude={9, 12}&limit=24&page=${page}`
-      : null
+      : null,
   );
 
   const animeList = useRef<HTMLDivElement | null>(null);
@@ -72,12 +70,8 @@ const SearchAnimeResult = ({ page }: SearchResultProps) => {
 
     return (
       <Box
-        style={{
-          minHeight: "13.25rem",
-          maxHeight: "calc(100% - 3.5625rem)",
-          overflow: "auto",
-        }}
         ref={animeList}
+        className="max-h-[calc(100%-3.5625rem)] min-h-[13.25rem] overflow-auto"
       >
         {lastPage > 1 ? (
           <Pagination
@@ -99,7 +93,7 @@ const SearchAnimeResult = ({ page }: SearchResultProps) => {
                 },
               }: AnimeData) => (
                 <AnimeCard key={mal_id} name={title} src={image_url} />
-              )
+              ),
             )}
           </ul>
         </Grid>

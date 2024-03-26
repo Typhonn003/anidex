@@ -15,9 +15,9 @@ import { Cross1Icon } from "@radix-ui/react-icons";
 const Home = () => {
   return (
     <main>
-      <Container py="2" px="3">        
+      <Container py="2" px="3">
         <Tabs.Root defaultValue="search">
-          <Tabs.List style={{ display: "flex", justifyContent: "center" }}>
+          <Tabs.List className="flex justify-center">
             <Tabs.Trigger value="search">Buscar</Tabs.Trigger>
             <Tabs.Trigger value="genres">Gêneros</Tabs.Trigger>
             <Tabs.Trigger value="favorites">Favoritos</Tabs.Trigger>
@@ -43,9 +43,7 @@ const Home = () => {
                       <Dialog.Trigger>
                         <Button variant="classic">Gêneros</Button>
                       </Dialog.Trigger>
-                      <Dialog.Content
-                        style={{ backgroundColor: "var(--accent-2)" }}
-                      >
+                      <Dialog.Content>
                         <Flex justify="between">
                           <Dialog.Title color="plum" highContrast>
                             Gêneros

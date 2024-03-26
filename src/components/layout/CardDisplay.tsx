@@ -9,12 +9,7 @@ const CardDisplay = ({ children }: CardDisplayProps) => {
   return (
     <Card
       variant="surface"
-      style={{
-        minHeight: "25rem",
-        height: "calc(100svh - 7rem)",
-        backgroundColor: "var(--accent-a3)",
-        borderColor: "var(--accent-a6)",
-      }}
+      className="h-[calc(100svh-7rem)] min-h-[25rem] !border-[var(--accent-6)] !bg-[var(--accent-3)]"
     >
       {children}
     </Card>
