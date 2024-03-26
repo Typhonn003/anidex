@@ -18,6 +18,28 @@ const Pagination = ({
   setPage,
   elementRef,
 }: PaginationProps) => {
+  const handleScroll = () => {
+    setTimeout(() => {
+      if (elementRef.current)
+        elementRef.current.scrollTo({ top: 0, behavior: "smooth" });
+    }, 100);
+  };
+
+  const handleNextPage = () => {
+    setPage(currentPage + 1);
+    handleScroll();
+  };
+
+  const handlePreviousPage = () => {
+    setPage(currentPage - 1);
+    handleScroll();
+  };
+
+  const handlePage = (value: number) => {
+    setPage(value);
+    handleScroll();
+  };
+
   const pageButtons = () => {
     const buttons = [];
     const totalPages = lastPage;
@@ -26,7 +48,7 @@ const Pagination = ({
       <IconButton
         key={1}
         variant="classic"
-        onClick={() => setPage(1)}
+        onClick={() => handlePage(1)}
         highContrast={currentPage == 1}
         aria-label="Botão para a página 1"
       >
@@ -53,7 +75,7 @@ const Pagination = ({
           <IconButton
             key={i}
             variant="classic"
-            onClick={() => setPage(i)}
+            onClick={() => handlePage(i)}
             highContrast={currentPage == i}
             aria-label={`Botão para a página ${i}`}
           >
@@ -72,7 +94,7 @@ const Pagination = ({
         <IconButton
           key={totalPages}
           variant="classic"
-          onClick={() => setPage(totalPages)}
+          onClick={() => handlePage(totalPages)}
           highContrast={currentPage === totalPages}
           aria-label={`Botão para a página ${totalPages}`}
         >
@@ -82,23 +104,6 @@ const Pagination = ({
     }
 
     return buttons;
-  };
-
-  const handleScroll = () => {
-    setTimeout(() => {
-      if (elementRef.current)
-        elementRef.current.scrollTo({ top: 0, behavior: "smooth" });
-    }, 100);
-  };
-
-  const handleNextPage = () => {
-    setPage(currentPage + 1);
-    handleScroll();
-  };
-
-  const handlePreviousPage = () => {
-    setPage(currentPage - 1);
-    handleScroll();
   };
 
   return (

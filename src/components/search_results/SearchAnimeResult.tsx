@@ -97,7 +97,7 @@ const SearchAnimeResult = ({ page }: SearchResultProps) => {
             )}
           </ul>
         </Grid>
-        {/* {lastPage > 1 ? (
+        {lastPage > 1 ? (
           <Pagination
             position="bottom"
             currentPage={currentPage}
@@ -105,7 +105,7 @@ const SearchAnimeResult = ({ page }: SearchResultProps) => {
             elementRef={animeList}
             setPage={setCurrentPage}
           />
-        ) : null} */}
+        ) : null}
       </Box>
     );
   }
