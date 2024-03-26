@@ -8,15 +8,14 @@ import {
   IconButton,
   Separator,
   Tabs,
-  TextField,
 } from "@radix-ui/themes";
-import { CardDisplay } from "@/components";
-import { Cross1Icon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { CardDisplay, SearchAnime } from "@/components";
+import { Cross1Icon } from "@radix-ui/react-icons";
 
 const Home = () => {
   return (
     <main>
-      <Container py="2" px="3">
+      <Container py="2" px="3">        
         <Tabs.Root defaultValue="search">
           <Tabs.List style={{ display: "flex", justifyContent: "center" }}>
             <Tabs.Trigger value="search">Buscar</Tabs.Trigger>
@@ -25,24 +24,11 @@ const Home = () => {
           </Tabs.List>
           <Box pt="2">
             <Tabs.Content value="search">
-              <CardDisplay>
-                <Box>
-                  <Flex gap="2">
-                    <TextField.Root style={{ width: "100%" }}>
-                      <TextField.Slot>
-                        <MagnifyingGlassIcon height="16" width="16" />
-                      </TextField.Slot>
-                      <TextField.Input placeholder="Procurar anime..." />
-                    </TextField.Root>
-                    <Button variant="classic">Buscar</Button>
-                  </Flex>
-                  <Separator my="3" size="4" />
-                </Box>
-              </CardDisplay>
+              <SearchAnime />
             </Tabs.Content>
             <Tabs.Content value="genres">
               <CardDisplay>
-                <Box>
+                <Box height="100%">
                   <Flex justify="between" align="center">
                     <Heading
                       color="plum"
