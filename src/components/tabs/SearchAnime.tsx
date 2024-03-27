@@ -37,7 +37,11 @@ const SearchAnime = () => {
               onChange={handleAnimeName}
             />
           </TextField.Root>
-          <Button variant="classic" onClick={handleSeach}>
+          <Button
+            variant="classic"
+            onClick={handleSeach}
+            disabled={animeName.length < 3}
+          >
             Buscar
           </Button>
         </Flex>
