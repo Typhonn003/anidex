@@ -1,6 +1,13 @@
-import { Box, Button, Flex, Separator, TextField } from "@radix-ui/themes";
+import {
+  Box,
+  Button,
+  Flex,
+  IconButton,
+  Separator,
+  TextField,
+} from "@radix-ui/themes";
 import { CardDisplay, SearchAnimeResult } from "..";
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { Cross1Icon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
 import { ChangeEvent } from "react";
 import { useAnimeStore } from "@/store";
@@ -18,9 +25,14 @@ const SearchAnime = () => {
     setAnimeName(e.target.value);
   };
 
-  const handleSeach = () => {
+  const handleSearch = () => {
     setCurrentPage(1);
     setSearchAnimeName(animeName);
+  };
+
+  const deleteSearch = () => {
+    setAnimeName("");
+    setSearchAnimeName("");
   };
 
   return (
@@ -36,8 +48,23 @@ const SearchAnime = () => {
               value={animeName}
               onChange={handleAnimeName}
             />
+            {animeName ? (
+              <TextField.Slot>
+                <IconButton
+                  variant="ghost"
+                  onClick={deleteSearch}
+                  aria-label="Botão para apagar a pesquisa e os resultados"
+                >
+                  <Cross1Icon />
+                </IconButton>
+              </TextField.Slot>
+            ) : null}
           </TextField.Root>
-          <Button variant="classic" onClick={handleSeach}>
+          <Button
+            variant="classic"
+            onClick={handleSearch}
+            disabled={animeName.length < 3}
+          >
             Buscar
           </Button>
         </Flex>

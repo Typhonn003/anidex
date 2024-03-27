@@ -8,7 +8,7 @@ import type { AppProps } from "next/app";
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
-    <Theme accentColor="plum">
+    <Theme accentColor="plum" className="bg-[var(--accent-2)]">
       <Header />
       <Component {...pageProps} />
     </Theme>
