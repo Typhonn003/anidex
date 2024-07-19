@@ -33,6 +33,22 @@ favoritesRoute
     fakeFavorites.push(anime);
 
     return c.json({ data: anime }, 201);
+  })
+  .get("/:id{[0-9]+}", async (c) => {
+    const id = Number(c.req.param("id"));
+    const anime = fakeFavorites.find((a) => a.mal_id === id);
+
+    if (!anime) return c.notFound();
+
+    return c.json({ data: anime }, 200);
+  })
+  .delete("/:id{[0-9]+}", async (c) => {
+    const id = Number(c.req.param("id"));
+    const index = fakeFavorites.findIndex((anime) => anime.mal_id === id);
+
+    if (index === -1) return c.notFound();
+
+    fakeFavorites.splice(index, 1);
+
+    return c.json(null, 204);
   });
-//  .put()
-//  .delete();
