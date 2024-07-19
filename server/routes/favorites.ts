@@ -1,8 +1,12 @@
 import { Hono } from "hono";
+import { zValidator } from "@hono/zod-validator";
+
+import { favoriteSchema } from "../../schemas";
+import type { Favorite } from "../../schemas";
 
 export const favoritesRoute = new Hono();
 
-const fakeFavorites = [
+const fakeFavorites: Favorite[] = [
   {
     mal_id: 1,
     image_url: "https://cdn.myanimelist.net/images/anime/4/19644.jpg",
@@ -24,8 +28,11 @@ favoritesRoute
   .get("/", async (c) => {
     return c.json({ data: fakeFavorites }, 200);
   })
-  .post("/", async (c) => {
-    return c.json({});
+  .post("/", zValidator("json", favoriteSchema), async (c) => {
+    const anime = await c.req.valid("json");
+    fakeFavorites.push(anime);
+
+    return c.json({ data: anime }, 201);
   });
 //  .put()
 //  .delete();
