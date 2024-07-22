@@ -1,8 +1,6 @@
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
-
-import { favoriteSchema } from "../../schemas";
-import type { Favorite } from "../../schemas";
+import { favoriteSchema, type Favorite } from "../../schemas";
 
 export const favoritesRoute = new Hono();
 
