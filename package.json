@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "run": "bun server/index.ts",
-    "dev": "bun --watch server/index.ts"
+    "dev": "bun --watch server/index.ts",
+    "migrate": "bun migrate.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",
