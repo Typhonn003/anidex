@@ -1,52 +1,70 @@
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
-import { favoriteSchema, type Favorite } from "../../schemas";
+import { favoriteSchema } from "../../schemas";
+import { getUser } from "../kinde";
+import { db } from "../db/database";
+import { favorites as favoritesTable } from "../db/schemas";
+import { and, eq } from "drizzle-orm";
 
 export const favoritesRoute = new Hono();
 
-const fakeFavorites: Favorite[] = [
-  {
-    mal_id: 1,
-    image_url: "https://cdn.myanimelist.net/images/anime/4/19644.jpg",
-    title: "Cowboy Bebop",
-  },
-  {
-    mal_id: 5,
-    image_url: "https://cdn.myanimelist.net/images/anime/1439/93480.jpg",
-    title: "Cowboy Bebop: Tengoku no Tobira",
-  },
-  {
-    mal_id: 6,
-    image_url: "https://cdn.myanimelist.net/images/anime/1130/120002.jpg",
-    title: "Trigun",
-  },
-];
-
 favoritesRoute
-  .get("/", async (c) => {
-    return c.json({ data: fakeFavorites }, 200);
-  })
-  .post("/", zValidator("json", favoriteSchema), async (c) => {
-    const anime = await c.req.valid("json");
-    fakeFavorites.push(anime);
+  .get("/", getUser, async (c) => {
+    const user = c.var.user;
 
-    return c.json({ data: anime }, 201);
+    const favorites = await db
+      .select()
+      .from(favoritesTable)
+      .where(eq(favoritesTable.userId, user.id));
+
+    return c.json({ data: favorites }, 200);
   })
-  .get("/:id{[0-9]+}", async (c) => {
+  .post("/", getUser, zValidator("json", favoriteSchema), async (c) => {
+    const user = c.var.user;
+    const anime = c.req.valid("json");
+
+    const result = await db
+      .insert(favoritesTable)
+      .values({
+        malId: anime.mal_id,
+        title: anime.title,
+        imageUrl: anime.image_url,
+        userId: user.id,
+      })
+      .returning()
+      .then((res) => res[0]);
+
+    return c.json({ data: result }, 201);
+  })
+  .get("/:id{[0-9]+}", getUser, async (c) => {
     const id = Number(c.req.param("id"));
-    const anime = fakeFavorites.find((a) => a.mal_id === id);
+    const user = c.var.user;
+
+    const anime = await db
+      .select()
+      .from(favoritesTable)
+      .where(
+        and(eq(favoritesTable.userId, user.id), eq(favoritesTable.malId, id))
+      )
+      .then((res) => res[0]);
 
     if (!anime) return c.notFound();
 
     return c.json({ data: anime }, 200);
   })
-  .delete("/:id{[0-9]+}", async (c) => {
+  .delete("/:id{[0-9]+}", getUser, async (c) => {
     const id = Number(c.req.param("id"));
-    const index = fakeFavorites.findIndex((anime) => anime.mal_id === id);
+    const user = c.var.user;
 
-    if (index === -1) return c.notFound();
+    const result = await db
+      .delete(favoritesTable)
+      .where(
+        and(eq(favoritesTable.userId, user.id), eq(favoritesTable.malId, id))
+      )
+      .returning()
+      .then((res) => res[0]);
 
-    fakeFavorites.splice(index, 1);
+    if (result) return c.notFound();
 
     return c.json(null, 204);
   });
